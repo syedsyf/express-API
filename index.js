@@ -144,6 +144,19 @@ app.get("/movi/:id", async (req, res) => {
   movi ? res.send(movi) : res.status(404).send({ Error: "Movi Not Found" });
 });
 
+
+app.delete("/movi/:id", async(req,res)=>{
+    const id = req.params.id;
+    const result = await client.db("b38wd").collection("momvies").deleteOne({id:id});
+    res.send({message:"deleted successfully"})
+})
+
+app.put("/movi/:id", async(req,res)=>{
+    const id = req.params.id;
+    const body = req.body
+    const result = await client.db("b38wd").collection("momvies").updateOne({id:id},{$set:body});
+    res.send({message:result})
+})
 app.listen(PORT, () => {
   console.log("listening on port " + PORT);
 });
