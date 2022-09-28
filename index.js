@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 const app = express();
 
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 const movie = [
   {
@@ -157,6 +157,7 @@ app.put("/movi/:id", async(req,res)=>{
     const result = await client.db("b38wd").collection("momvies").updateOne({id:id},{$set:body});
     res.send({message:result})
 })
+
 app.listen(PORT, () => {
   console.log("listening on port " + PORT);
 });
