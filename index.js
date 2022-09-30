@@ -1,5 +1,6 @@
 import express from "express";
 import { MongoClient } from "mongodb";
+import moviesRouter from "./movies.router.js"
 import * as dotenv from 'dotenv' 
 dotenv.config()
 const app = express();
@@ -105,7 +106,7 @@ const createConnection = async () => {
   console.log("Connected to MongoDB...");
   return client;
 };
-const client = await createConnection();
+export const client = await createConnection();
 
 app.use(express.json());
 
@@ -113,51 +114,23 @@ app.get("/", (req, res) => {
   res.send("hi");
 });
 
-app.post("/movi", express.json(), async (req, res) => {
-  const data = req.body;
-  console.log(data);
-  const result = await client
-    .db("b38wd")
-    .collection("momvies")
-    .insertMany(data);
-  res.send(result);
-});
-
-app.get("/movi", async (req, res) => {
-  const query = req.query;
-  const movi = await client
-    .db("b38wd")
-    .collection("momvies")
-    .find(query)
-    .toArray();
-  console.log(movi);
-  res.send(movi);
-});
-
-app.get("/movi/:id", async (req, res) => {
-  const id = req.params.id;
-  const movi = await client
-    .db("b38wd")
-    .collection("momvies")
-    .findOne({ id: id });
-  console.log(movi);
-  movi ? res.send(movi) : res.status(404).send({ Error: "Movi Not Found" });
-});
-
-
-app.delete("/movi/:id", async(req,res)=>{
-    const id = req.params.id;
-    const result = await client.db("b38wd").collection("momvies").deleteOne({id:id});
-    res.send({message:"deleted successfully"})
-})
-
-app.put("/movi/:id", async(req,res)=>{
-    const id = req.params.id;
-    const body = req.body
-    const result = await client.db("b38wd").collection("momvies").updateOne({id:id},{$set:body});
-    res.send({message:result})
-})
+app.use('/movi',moviesRouter)
 
 app.listen(PORT, () => {
-  console.log("listening on port " + PORT);
-});
+    console.log("listening on port " + PORT);
+  });
+  
+
+
+  import bcrypt from "bcrypt";
+
+
+  async function generatePassword(password){
+    const NO_OF_ROUNDS = 10;
+    const salt =await bcrypt.genSalt(NO_OF_ROUNDS);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log(hashedPassword)
+    console.log(salt)
+  }
+
+  generatePassword("syed");
