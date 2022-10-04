@@ -1,5 +1,5 @@
 import express from  'express';
-import { getAllMovies, getMoviById, updateMoviById,deleteMoviById, createMovi } from './services/movies.services.js';
+import { getAllMovies, getMoviById, updateMoviById,deleteMoviById, createMovi } from '../services/movies.services.js';
 
 
 const router = express.Router();

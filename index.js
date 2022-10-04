@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
-import moviesRouter from "./movies.router.js"
+import moviesRouter from "./route/movies.router.js"
+import userRouter from "./route/user.router.js"
 import * as dotenv from 'dotenv' 
 dotenv.config()
 const app = express();
@@ -110,6 +111,8 @@ export const client = await createConnection();
 
 app.use(express.json());
 
+app.use('/user',userRouter)
+
 app.get("/", (req, res) => {
   res.send("hi");
 });
@@ -122,15 +125,7 @@ app.listen(PORT, () => {
   
 
 
-  import bcrypt from "bcrypt";
+  
 
 
-  async function generatePassword(password){
-    const NO_OF_ROUNDS = 10;
-    const salt =await bcrypt.genSalt(NO_OF_ROUNDS);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log(hashedPassword)
-    console.log(salt)
-  }
-
-  generatePassword("syed");
+  
